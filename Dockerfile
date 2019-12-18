@@ -1,3 +1,3 @@
-FROM udondan/jsii:0.1.0
+FROM udondan/jsii:0.2.0
 
 COPY . /workdir/app
