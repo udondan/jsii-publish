@@ -1,0 +1,10 @@
+---
+name: JSII
+description: Builds JSII packages
+author: deemes79@googlemail.com
+branding:
+  icon: upload-cloud
+  color: orange
+runs:
+  using: docker
+  image: Dockerfile
