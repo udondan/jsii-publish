@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cd /workdir/app || exit
+
+npm install
+npm run build
+npm run package
