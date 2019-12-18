@@ -20,6 +20,4 @@ RUN apt-get update && \
 
 ADD entrypoint /
 
-WORKDIR /workdir
-
 ENTRYPOINT [ "bash", "/entrypoint" ]
