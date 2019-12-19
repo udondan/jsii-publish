@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# All env vars that can be passed in, are handled in two variants
+# FOO which can be passed in by the user when running locally
+# INPUT_FOO, which is the prefixed version passed in by GitHub actions
+
 set -euo pipefail
 IFS=$'\n\t'
 
