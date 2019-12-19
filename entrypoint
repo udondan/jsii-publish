@@ -1,9 +1,5 @@
 #!/bin/bash
 
-WORKDIR="${WORKDIR:-/workdir}"
-mkdir -p "${WORKDIR}"
-cd "${WORKDIR}" || exit
-
 npm install
 npm run build
 npm run package
