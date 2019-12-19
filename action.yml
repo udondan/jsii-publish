@@ -9,6 +9,9 @@ runs:
   using: docker
   image: docker://udondan/jsii-publish:0.3.0
 inputs:
+  BUILD:
+    description: Indicates if the packages should be built
+    default: false
   NPM_TOKEN:
     description: npm Token for publishing
     required: false
