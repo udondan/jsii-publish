@@ -1,4 +1,5 @@
 #!/bin/bash
+
 set -euo pipefail
 IFS=$'\n\t'
 
@@ -9,12 +10,6 @@ normal=$(tput sgr0)
 print() {
     echo "${bold}$1${normal}"
 }
-
-export NPM_TOKEN="${NPM_TOKEN:-${INPUT_NPM_TOKEN}}"
-if [[ -n "${NPM_TOKEN}" ]]; then
-    # shellcheck disable=SC2016
-    echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' >> .npmrc
-fi
 
 # Update the version if it was passed
 export VERSION="${VERSION:-${INPUT_VERSION}}"
@@ -31,12 +26,26 @@ print "Building source..."
 npm run build
 
 print "Building packages..."
+rm -rf dist/*
 npm run package
 
-# Publish to NPM if requested
-NPM_PUBLISH=$(echo "${NPM_PUBLISH:-${INPUT_NPM_PUBLISH}}" | tr "[:upper:]" "[:lower:]")
-export NPM_PUBLISH
-if [[ "${NPM_PUBLISH}" == "true" || "${NPM_PUBLISH}" == "yes" ]]; then
+# Publish to npm if token is present
+export NPM_TOKEN="${NPM_TOKEN:-${INPUT_NPM_TOKEN}}"
+if [[ -n "${NPM_TOKEN}" ]]; then
     print "Publishing npm package..."
+    # shellcheck disable=SC2016
+    echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
     npm publish dist/js/*
+fi
+
+# Publish to PyPI if token is present
+export PYPI_TOKEN="${PYPI_TOKEN:-${INPUT_PYPI_TOKEN}}"
+if [[ -n "${PYPI_TOKEN}" ]]; then
+    print "Publishing PyPI package..."
+    cat <<EOF > ~/.pypirc
+[pypi]
+username = __token__
+password = ${PYPI_TOKEN}
+EOF
+    twine upload dist/python/*
 fi
