@@ -2,6 +2,7 @@
 
 set -e
 
+export TERM=xterm
 bold=$(tput setaf 003)
 normal=$(tput sgr0)
 
