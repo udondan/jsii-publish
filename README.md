@@ -1,5 +1,10 @@
 # Dockerfile and Github action for publishing JSII packages
 
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/udondan/jsii-publish)][releases]
+[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/udondan/jsii-publish)][hub]
+[![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/udondan/jsii-publish)][hub-builds]
+[![Docker Pulls](https://img.shields.io/docker/pulls/udondan/jsii-publish)][hub]
+
 Currently package building and publishing to npm, PyPI and NuGet is supported. Maven publishing is yet missing.
 
 Example usage in a GitHub workflow:
@@ -58,3 +63,7 @@ Parameters passed per env:
 - **NPM_TOKEN**: Your publish token for npm. If passed, package will be published to npm
 - **PYPI_TOKEN**: Your publish token for PyPI. If passed, package will be published to PyPI
 - **NUGET_TOKEN**: Your publish token for NuGet. If passed, package will be published to NuGet
+
+   [hub]: https://hub.docker.com/r/udondan/jsii-publish
+   [hub-builds]: https://hub.docker.com/r/udondan/jsii-publish/builds
+   [releases]: https://github.com/udondan/jsii-publish/releases
