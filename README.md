@@ -1,4 +1,4 @@
-# Dockerfile and Github action for building JSII projects
+# Dockerfile and Github action for publishing JSII packages
 
 Currently package building and publishing to npm, PyPI and NuGet is supported. Maven publishing is yet missing.
 
