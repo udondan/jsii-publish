@@ -7,4 +7,4 @@ branding:
   color: orange
 runs:
   using: docker
-  image: Dockerfile
+  image: docker://udondan/jsii-publish:0.2.0
