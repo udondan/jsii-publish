@@ -10,8 +10,8 @@ runs:
   image: docker://udondan/jsii-publish:0.3.0
 inputs:
   NPM_TOKEN:
-    description: NPM Token for publishing
+    description: npm Token for publishing
     required: false
-  NPM_PUBLISH:
-    description: Indicates if the package should be published to NPM
+  PYPI_TOKEN:
+    description: PyPI Token for publishing
     required: false
