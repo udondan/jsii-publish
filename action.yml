@@ -7,7 +7,7 @@ branding:
   color: orange
 runs:
   using: docker
-  image: docker://udondan/jsii-publish:0.3.0
+  image: docker://udondan/jsii-publish:0.5.0
 inputs:
   BUILD:
     description: Indicates if the packages should be built
