@@ -1,10 +1,10 @@
 ---
-name: JSII
-description: Builds JSII packages
+name: JSII Publish
+description: Builds and publishes JSII packages
 author: deemes79@googlemail.com
 branding:
   icon: upload-cloud
   color: orange
 runs:
   using: docker
-  image: Dockerfile
+  image: udondan/jsii-publish:0.2.0
