@@ -1,6 +1,6 @@
 #!/bin/bash
-
-set -e
+set -euo pipefail
+IFS=$'\n\t'
 
 export TERM=xterm
 bold=$(tput setaf 003)
