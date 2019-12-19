@@ -1,5 +1,41 @@
 #!/bin/bash
 
+set -e
+
+bold=$(tput setaf 003)
+normal=$(tput sgr0)
+
+print() {
+    echo "${bold}$1${normal}"
+}
+
+export NPM_TOKEN="${NPM_TOKEN:-${INPUT_NPM_TOKEN}}"
+if [[ -n "${NPM_TOKEN}" ]]; then
+    # shellcheck disable=SC2016
+    echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' >> .npmrc
+fi
+
+# Update the version if it was passed
+export VERSION="${VERSION:-${INPUT_VERSION}}"
+if [[ -n "${VERSION}" ]]; then
+    print "Updating package version to $VERSION..."
+    npm version "${VERSION}" --allow-same-version --no-git-tag-version
+fi
+
+# Build the packages
+print "Installing dependencies..."
 npm install
+
+print "Building source..."
 npm run build
+
+print "Building packages..."
 npm run package
+
+# Publish to NPM if requested
+NPM_PUBLISH=$(echo "${NPM_PUBLISH:-${INPUT_NPM_PUBLISH}}" | tr "[:upper:]" "[:lower:]")
+export NPM_PUBLISH
+if [[ "${NPM_PUBLISH}" == "true" || "${NPM_PUBLISH}" == "yes" ]]; then
+    print "Publishing npm package..."
+    npm publish dist/js/*
+fi
