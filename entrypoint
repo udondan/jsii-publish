@@ -16,7 +16,7 @@ print() {
 }
 
 # Update the version if it was passed
-export VERSION="${VERSION:-${INPUT_VERSION}}"
+export VERSION="${VERSION:-${INPUT_VERSION:-}}"
 if [[ -n "${VERSION}" ]]; then
     print "Updating package version to $VERSION..."
     npm version "${VERSION}" --allow-same-version --no-git-tag-version
