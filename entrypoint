@@ -16,14 +16,13 @@ print() {
 }
 
 # Update the version if it was passed
-export VERSION="${VERSION:-${INPUT_VERSION:-}}"
+VERSION="${VERSION:-${INPUT_VERSION:-}}"
 if [[ -n "${VERSION}" ]]; then
     print "Updating package version to $VERSION..."
     npm version "${VERSION}" --allow-same-version --no-git-tag-version
 fi
 
 BUILD=$(echo "${BUILD:-${INPUT_BUILD:-}}" | tr "[:upper:]" "[:lower:]")
-
 if [[ "${BUILD}" == "true" || "${BUILD}" == "yes" ]]; then
     print "Installing dependencies..."
     npm install
@@ -36,18 +35,16 @@ if [[ "${BUILD}" == "true" || "${BUILD}" == "yes" ]]; then
     npm run package
 fi
 
-
 # Publish to npm if token is present
-export NPM_TOKEN="${NPM_TOKEN:-${INPUT_NPM_TOKEN:-}}"
+NPM_TOKEN="${NPM_TOKEN:-${INPUT_NPM_TOKEN:-}}"
 if [[ -n "${NPM_TOKEN}" ]]; then
     print "Publishing npm package..."
-    # shellcheck disable=SC2016
-    echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > ~/.npmrc
+    echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
     npm publish dist/js/*
 fi
 
 # Publish to PyPI if token is present
-export PYPI_TOKEN="${PYPI_TOKEN:-${INPUT_PYPI_TOKEN:-}}"
+PYPI_TOKEN="${PYPI_TOKEN:-${INPUT_PYPI_TOKEN:-}}"
 if [[ -n "${PYPI_TOKEN}" ]]; then
     print "Publishing PyPI package..."
     cat <<EOF > ~/.pypirc
@@ -59,7 +56,7 @@ EOF
 fi
 
 # Publish to NuGet if token is present
-export NUGET_TOKEN="${NUGET_TOKEN:-${INPUT_NUGET_TOKEN:-}}"
+NUGET_TOKEN="${NUGET_TOKEN:-${INPUT_NUGET_TOKEN:-}}"
 if [[ -n "${NUGET_TOKEN}" ]]; then
     print "Publishing NuGET package..."
     dotnet nuget push dist/dotnet/*.nupkg -k "${NUGET_TOKEN}" -s https://api.nuget.org/v3/index.json --skip-duplicate
