@@ -31,7 +31,7 @@ jobs:
         with:
           fetch-depth: 1
 
-      - uses: udondan/jsii-publish@v0.5.0
+      - uses: udondan/jsii-publish@v0.5.1
         with:
           BUILD: true
           VERSION: ${{ steps.get_version.outputs.VERSION }}
@@ -51,7 +51,7 @@ docker run -it \
     --env NPM_TOKEN \
     --env PYPI_TOKEN \
     --env NUGET_TOKEN \
-    udondan/jsii-publish:0.5.0
+    udondan/jsii-publish:0.5.1
 ```
 
 The package code can be mounted to any location in the container. Just make sure you set the workdir to the same value. In the example above I use `/workdir`.
