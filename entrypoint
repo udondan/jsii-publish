@@ -8,11 +8,11 @@ set -euo pipefail
 IFS=$'\n\t'
 
 export TERM=xterm
-bold=$(tput setaf 003)
+yellow=$(tput setaf 003)
 normal=$(tput sgr0)
 
 print() {
-    echo "${bold}$1${normal}"
+    echo "${yellow}$1${normal}"
 }
 
 # Update the version if it was passed
