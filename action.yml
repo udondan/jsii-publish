@@ -7,14 +7,20 @@ branding:
   color: orange
 runs:
   using: docker
-  image: docker://udondan/jsii-publish:0.5.0
+  image: docker://udondan/jsii-publish:0.5.1
 inputs:
   BUILD:
-    description: Indicates if the packages should be built
+    description: Indicates if the packages should be build
     default: false
+  VERSION:
+    description: If set, the version in `package.json` will be updated with this value
+    required: false
   NPM_TOKEN:
-    description: npm Token for publishing
+    description: Your publish token for npm. If passed, package will be published to npm
     required: false
   PYPI_TOKEN:
-    description: PyPI Token for publishing
+    description: Your publish token for PyPI. If passed, package will be published to PyPI
+    required: false
+  NUGET_TOKEN:
+    description: Your publish token for NuGet. If passed, package will be published to NuGet
     required: false
