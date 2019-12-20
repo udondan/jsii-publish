@@ -8,11 +8,9 @@ RUN apt-get update && \
     curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.asc.gpg && \
     curl https://packages.microsoft.com/config/debian/10/prod.list -o /etc/apt/sources.list.d/microsoft-prod.list && \
     curl -sL https://deb.nodesource.com/setup_13.x | bash - && \
-    apt-get update && \
-    apt-get install -y dotnet-sdk-3.1 && \
-    apt install -y nodejs && \
     mkdir -p /usr/share/man/man1 && \
-    apt-get install -y maven && \
+    apt-get update && \
+    apt-get install -y dotnet-sdk-3.1 maven nodejs && \
     pip3 install twine==3.1.1 && \
     apt-get clean
 
