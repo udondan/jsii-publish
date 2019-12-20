@@ -4,6 +4,7 @@
 [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/udondan/jsii-publish)][hub]
 [![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/udondan/jsii-publish)][hub-builds]
 [![Docker Pulls](https://img.shields.io/docker/pulls/udondan/jsii-publish)][hub]
+[![GitHub](https://img.shields.io/github/license/udondan/jsii-publish)][license]
 
 Currently package building and publishing to npm, PyPI and NuGet is supported. Maven publishing is yet missing.
 
@@ -67,3 +68,4 @@ Parameters passed per env:
    [hub]: https://hub.docker.com/r/udondan/jsii-publish
    [hub-builds]: https://hub.docker.com/r/udondan/jsii-publish/builds
    [releases]: https://github.com/udondan/jsii-publish/releases
+   [license]: https://github.com/udondan/jsii-publish/blob/master/LICENSE
