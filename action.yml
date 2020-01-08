@@ -7,7 +7,7 @@ branding:
   color: orange
 runs:
   using: docker
-  image: docker://udondan/jsii-publish:0.6.2
+  image: docker://udondan/jsii-publish:0.6.3
 inputs:
   BUILD_SOURCE:
     description: Indicates if the source should be build (tsc)
@@ -26,4 +26,13 @@ inputs:
     required: false
   NUGET_TOKEN:
     description: Your publish token for NuGet. If passed, package will be published to NuGet
+    required: false
+  GITHUB_TOKEN:
+    description: Your publish token for GitHub. If passed, Maven package will be published to Github
+    required: false
+  GITHUB_USER:
+    description: GitHub user name. The name must relate to the GITHUB_TOKEN
+    required: false
+  GITHUB_REPOSITORY:
+    description: GitHub repository path. OWNER/REPO, e.g. "udondan/jsii-publish"
     required: false
