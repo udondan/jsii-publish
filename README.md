@@ -18,8 +18,8 @@ name: Publish packages
 
 on:
   push:
-    branches:
-      - refs/tags/v*
+    tags:
+      - "v*"
 
 jobs:
   build:
@@ -56,8 +56,8 @@ name: Publish packages
 
 on:
   push:
-    branches:
-      - refs/tags/v*
+    tags:
+      - "v*"
 
 jobs:
   build:
