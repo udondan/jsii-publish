@@ -74,33 +74,33 @@ jobs:
           fetch-depth: 1
 
       - name: Build source
-        uses: &jsii-publish udondan/jsii-publish@v0.6.0
+        uses: udondan/jsii-publish@v0.6.0
         with:
           VERSION: ${{ steps.get_version.outputs.VERSION }}
           BUILD_SOURCE: true
 
       - name: Build packages
-        uses: *jsii-publish
+        uses: udondan/jsii-publish@v0.6.0
         with:
           BUILD_PACKAGES: true
 
       - name: Publish to npm
-        uses: *jsii-publish
+        uses: udondan/jsii-publish@v0.6.0
         with:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish to PyPI
-        uses: *jsii-publish
+        uses: udondan/jsii-publish@v0.6.0
         with:
           PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
 
       - name: Publish to NuGet
-        uses: *jsii-publish
+        uses: udondan/jsii-publish@v0.6.0
         with:
           NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
 
       - name: Publish to Maven GitHub
-        uses: *jsii-publish
+        uses: udondan/jsii-publish@v0.6.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ GITHUB_REPOSITORY }}
