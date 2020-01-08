@@ -9,7 +9,10 @@ publish_to_maven() {
     [ -z "${GITHUB_REPOSITORY:-}" ] && error "GITHUB_REPOSITORY required"
     GITHUB_REPOSITORY=$(echo "${GITHUB_REPOSITORY:-}" | tr '[:upper:]' '[:lower:]')
 
-    if [[ -n "${INPUT_GITHUB_REPOSITORY:-}" ]]; then # this is a github action
+    GITHUB_USER="${GITHUB_USER:-${INPUT_GITHUB_USER:-}}"
+    if [[ -n "${GITHUB_USER}" ]]; then
+      :
+    elif [[ -n "${INPUT_GITHUB_REPOSITORY:-}" ]]; then # this is a github action
       GITHUB_USER="x-access-token"
     else
       GITHUB_USER="${GITHUB_REPOSITORY//\/*/}" # extracting the user name from the repo
