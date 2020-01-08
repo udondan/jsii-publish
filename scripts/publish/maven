@@ -4,13 +4,20 @@ publish_to_maven() {
     begin Maven
     [ ! -f "${1:-}" ] && error "Require pom file as first parameter"
     [ -z "${GITHUB_TOKEN:-}" ] && error "GITHUB_TOKEN required"
-    [ -z "${GITHUB_REPOSITORY:-}" ] && error "GITHUB_REPOSITORY required"
 
+    GITHUB_REPOSITORY="${GITHUB_REPOSITORY:-${INPUT_GITHUB_REPOSITORY:-}}"
+    [ -z "${GITHUB_REPOSITORY:-}" ] && error "GITHUB_REPOSITORY required"
     GITHUB_REPOSITORY=$(echo "${GITHUB_REPOSITORY:-}" | tr '[:upper:]' '[:lower:]')
-    GITHUB_USER="${GITHUB_REPOSITORY//\/*/}"
+
+    if [[ -n "${INPUT_GITHUB_REPOSITORY:-}" ]]; then # this is a github action
+      GITHUB_USER="x-access-token"
+    else
+      GITHUB_USER="${GITHUB_REPOSITORY//\/*/}" # extracting the user name from the repo
+    fi
+    print "Set user to ${GITHUB_USER}"
 
     dir=$(dirname "$1")
-    cd "$dir" || error "Path $dir does not exists"
+    cd "${dir}" || error "Path ${dir} does not exists"
 
     mkdir -p ~/.m2
     cat <<EOF > ~/.m2/settings.xml

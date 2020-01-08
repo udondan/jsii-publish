@@ -66,7 +66,7 @@ PYPI_TOKEN="${PYPI_TOKEN:-${INPUT_PYPI_TOKEN:-}}"
 NUGET_TOKEN="${NUGET_TOKEN:-${INPUT_NUGET_TOKEN:-}}"
 [ -n "${NUGET_TOKEN}" ] && publish_to_nuget dist/dotnet/*.nupkg
 
-# Publish to Maven if username is present
+# Publish to Maven if token is present
 GITHUB_TOKEN="${GITHUB_TOKEN:-${INPUT_GITHUB_TOKEN:-}}"
 [ -n "${GITHUB_TOKEN}" ] && publish_to_maven "$(find . -name "*.pom")"
 
