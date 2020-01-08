@@ -1,0 +1,12 @@
+#!/bin/bash
+
+publish_to_npm() {
+    begin npm
+    [ -z "${1:-}" ] && error "Require target directory as first parameter"
+    [ -z "${NPM_TOKEN:-}" ] && error "NPM_TOKEN required"
+
+    echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+    npm publish "$1"
+
+    complete
+}

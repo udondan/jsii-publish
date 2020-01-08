@@ -17,6 +17,6 @@ RUN apt-get update && \
     apt-get autoremove -y && \
     apt-get clean
 
-ADD entrypoint /
+ADD scripts /scripts
 
-ENTRYPOINT [ "bash", "/entrypoint" ]
+ENTRYPOINT [ "bash", "/scripts/entrypoint" ]

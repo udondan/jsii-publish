@@ -15,6 +15,22 @@ print() {
     echo "${yellow}$1${normal}"
 }
 
+begin() {
+    print "📦 Publishing $1 package..."
+}
+
+error() {
+    print "❌ $*"
+    exit 1
+}
+
+complete() {
+    print "✅ Done"
+}
+
+# shellcheck disable=SC1090
+source /scripts/publish/*
+
 # Update the version if it was passed
 VERSION="${VERSION:-${INPUT_VERSION:-}}"
 if [[ -n "${VERSION}" ]]; then
@@ -22,14 +38,17 @@ if [[ -n "${VERSION}" ]]; then
     npm version "${VERSION}" --allow-same-version --no-git-tag-version
 fi
 
-BUILD=$(echo "${BUILD:-${INPUT_BUILD:-}}" | tr "[:upper:]" "[:lower:]")
-if [[ "${BUILD}" == "true" || "${BUILD}" == "yes" ]]; then
+BUILD_SOURCE=$(echo "${BUILD_SOURCE:-${INPUT_BUILD_SOURCE:-}}" | tr "[:upper:]" "[:lower:]")
+if [[ "${BUILD_SOURCE}" == "true" || "${BUILD_SOURCE}" == "yes" ]]; then
     print "Installing dependencies..."
     npm install
 
     print "Building source..."
     npm run build
+fi
 
+BUILD_PACKAGES=$(echo "${BUILD_PACKAGES:-${INPUT_BUILD_PACKAGES:-}}" | tr "[:upper:]" "[:lower:]")
+if [[ "${BUILD_PACKAGES}" == "true" || "${BUILD_PACKAGES}" == "yes" ]]; then
     print "Building packages..."
     rm -rf dist/*
     npm run package
@@ -37,27 +56,18 @@ fi
 
 # Publish to npm if token is present
 NPM_TOKEN="${NPM_TOKEN:-${INPUT_NPM_TOKEN:-}}"
-if [[ -n "${NPM_TOKEN}" ]]; then
-    print "Publishing npm package..."
-    echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-    npm publish dist/js/*
-fi
+[ -n "${NPM_TOKEN}" ] && publish_to_npm dist/js/*
 
 # Publish to PyPI if token is present
 PYPI_TOKEN="${PYPI_TOKEN:-${INPUT_PYPI_TOKEN:-}}"
-if [[ -n "${PYPI_TOKEN}" ]]; then
-    print "Publishing PyPI package..."
-    cat <<EOF > ~/.pypirc
-[pypi]
-username = __token__
-password = ${PYPI_TOKEN}
-EOF
-    twine upload dist/python/*
-fi
+[ -n "${PYPI_TOKEN}" ] && publish_to_pypi dist/python/*
 
 # Publish to NuGet if token is present
 NUGET_TOKEN="${NUGET_TOKEN:-${INPUT_NUGET_TOKEN:-}}"
-if [[ -n "${NUGET_TOKEN}" ]]; then
-    print "Publishing NuGET package..."
-    dotnet nuget push dist/dotnet/*.nupkg -k "${NUGET_TOKEN}" -s https://api.nuget.org/v3/index.json --skip-duplicate
-fi
+[ -n "${NUGET_TOKEN}" ] && publish_to_nuget dist/dotnet/*.nupkg
+
+# Publish to Maven if username is present
+GITHUB_TOKEN="${GITHUB_TOKEN:-${INPUT_GITHUB_TOKEN:-}}"
+[ -n "${GITHUB_TOKEN}" ] && publish_to_maven "$(find . -name "*.pom")"
+
+exit 0

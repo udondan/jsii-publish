@@ -1,0 +1,58 @@
+#!/bin/bash
+
+publish_to_maven() {
+    begin Maven
+    [ ! -f "${1:-}" ] && error "Require pom file as first parameter"
+    [ -z "${GITHUB_TOKEN:-}" ] && error "GITHUB_TOKEN required"
+    [ -z "${GITHUB_REPOSITORY:-}" ] && error "GITHUB_REPOSITORY required"
+
+    GITHUB_REPOSITORY=$(echo "${GITHUB_REPOSITORY:-}" | tr '[:upper:]' '[:lower:]')
+    GITHUB_USER="${GITHUB_REPOSITORY//\/*/}"
+
+    dir=$(dirname "$1")
+    cd "$dir" || error "Path $dir does not exists"
+
+    mkdir -p ~/.m2
+    cat <<EOF > ~/.m2/settings.xml
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+  <activeProfiles>
+    <activeProfile>github</activeProfile>
+  </activeProfiles>
+
+  <profiles>
+    <profile>
+      <id>github</id>
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>https://repo1.maven.org/maven2</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>false</enabled></snapshots>
+        </repository>
+        <repository>
+          <id>github</id>
+          <name>GitHub ${GITHUB_USER} Apache Maven Packages</name>
+          <url>https://maven.pkg.github.com/${GITHUB_REPOSITORY}</url>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+
+  <servers>
+    <server>
+      <id>github</id>
+      <username>${GITHUB_USER}</username>
+      <password>${GITHUB_TOKEN}</password>
+    </server>
+  </servers>
+</settings>
+EOF
+
+    mvn deploy -f "$(basename "$1")" -DaltDeploymentRepository="github::default::https://maven.pkg.github.com/${GITHUB_REPOSITORY}"
+
+    complete
+}
