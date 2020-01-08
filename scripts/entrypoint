@@ -29,7 +29,7 @@ complete() {
 }
 
 # shellcheck disable=SC1090
-source /scripts/publish/*
+source <(cat /scripts/publish/*)
 
 # Update the version if it was passed
 VERSION="${VERSION:-${INPUT_VERSION:-}}"
