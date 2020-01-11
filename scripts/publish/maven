@@ -62,7 +62,13 @@ publish_to_maven() {
 </settings>
 EOF
 
-    mvn deploy -f "$(basename "$1")" -DaltDeploymentRepository="github::default::https://maven.pkg.github.com/${GITHUB_REPOSITORY}"
+    cmd=(mvn deploy --batch-mode --errors --file "$(basename "$1")" "-DaltDeploymentRepository=\"github::default::https://maven.pkg.github.com/${GITHUB_REPOSITORY}\"")
+
+    if [[ "${DEBUG}" == "true" || "${DEBUG}" == "yes" ]]; then
+      cmd+=(-X)
+    fi
+
+    eval "${cmd[@]}"
 
     complete
 }

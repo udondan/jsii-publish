@@ -31,6 +31,8 @@ complete() {
 # shellcheck disable=SC1090
 source <(cat /scripts/publish/*)
 
+DEBUG=$(echo "${DEBUG:-${INPUT_DEBUG:-}}" | tr "[:upper:]" "[:lower:]")
+
 # Update the version if it was passed
 VERSION="${VERSION:-${INPUT_VERSION:-}}"
 if [[ -n "${VERSION}" ]]; then

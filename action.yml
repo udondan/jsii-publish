@@ -36,3 +36,6 @@ inputs:
   GITHUB_REPOSITORY:
     description: GitHub repository path. OWNER/REPO, e.g. "udondan/jsii-publish"
     required: false
+  DEBUG:
+    description: Enables debug modes (currently only mvn)
+    required: false
