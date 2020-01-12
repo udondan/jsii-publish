@@ -7,7 +7,7 @@ branding:
   color: orange
 runs:
   using: docker
-  image: docker://udondan/jsii-publish:0.7.0
+  image: docker://udondan/jsii-publish:0.7.1
 inputs:
   BUILD_SOURCE:
     description: Indicates if the source should be build (tsc)
