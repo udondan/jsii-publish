@@ -5,14 +5,14 @@ publish_to_maven() {
     [ ! -f "${1:-}" ] && error "Require pom file as first parameter"
     [ -z "${GITHUB_TOKEN:-}" ] && error "GITHUB_TOKEN required"
 
-    GITHUB_REPOSITORY="${GITHUB_REPOSITORY:-${INPUT_GITHUB_REPOSITORY:-}}"
+    var GITHUB_REPOSITORY
     [ -z "${GITHUB_REPOSITORY:-}" ] && error "GITHUB_REPOSITORY required"
     GITHUB_REPOSITORY=$(echo "${GITHUB_REPOSITORY:-}" | tr '[:upper:]' '[:lower:]')
 
-    GITHUB_USER="${GITHUB_USER:-${INPUT_GITHUB_USER:-}}"
+    var GITHUB_USER
     if [[ -n "${GITHUB_USER}" ]]; then
       :
-    elif [[ -n "${INPUT_GITHUB_REPOSITORY:-}" ]]; then # this is a github action
+    elif [[ "${GITHUB_ACTIONS:-}" == "true" ]]; then
       GITHUB_USER="x-access-token"
     else
       GITHUB_USER="${GITHUB_REPOSITORY//\/*/}" # extracting the user name from the repo
@@ -64,7 +64,7 @@ EOF
 
     cmd=(mvn deploy --batch-mode --errors --file "$(basename "$1")" "-DaltDeploymentRepository=\"github::default::https://maven.pkg.github.com/${GITHUB_REPOSITORY}\"")
 
-    if [[ "${DEBUG}" == "true" || "${DEBUG}" == "yes" ]]; then
+    if [[ "${DEBUG}" = true ]]; then
       cmd+=(-X)
     fi
 

@@ -28,19 +28,43 @@ complete() {
     print "✅ Done"
 }
 
+var() {
+    local name="$1"
+    local value
+
+    if [[ "${GITHUB_ACTIONS:-}" == "true" ]]; then
+        name="INPUT_${name}"
+    fi
+    if [[ "${2:-}" = true ]]; then
+        value=$(echo "${!name:-}" | tr "[:upper:]" "[:lower:]")
+        if [[ "${value}" == "true" || "${value}" == "yes" ]]; then
+            eval "$1="'true'""
+        else
+            eval "$1="'false'""
+        fi
+    else
+        eval "$1="'${!name:-}'""
+    fi
+}
+
+var DEBUG true
+var VERSION
+var BUILD_SOURCE true
+var BUILD_PACKAGES
+var NPM_TOKEN
+var PYPI_TOKEN
+var NUGET_TOKEN
+var GITHUB_TOKEN
+
 # shellcheck disable=SC1090
 source <(cat /scripts/publish/*)
 
-DEBUG=$(echo "${DEBUG:-${INPUT_DEBUG:-}}" | tr "[:upper:]" "[:lower:]")
-
 # Update the version if it was passed
-VERSION="${VERSION:-${INPUT_VERSION:-}}"
 if [[ -n "${VERSION}" ]]; then
     print "Updating package version to $VERSION..."
     npm version "${VERSION}" --allow-same-version --no-git-tag-version
 fi
 
-BUILD_SOURCE=$(echo "${BUILD_SOURCE:-${INPUT_BUILD_SOURCE:-}}" | tr "[:upper:]" "[:lower:]")
 if [[ "${BUILD_SOURCE}" == "true" || "${BUILD_SOURCE}" == "yes" ]]; then
     print "Installing dependencies..."
     npm install
@@ -49,7 +73,6 @@ if [[ "${BUILD_SOURCE}" == "true" || "${BUILD_SOURCE}" == "yes" ]]; then
     npm run build
 fi
 
-BUILD_PACKAGES=$(echo "${BUILD_PACKAGES:-${INPUT_BUILD_PACKAGES:-}}" | tr "[:upper:]" "[:lower:]")
 if [[ "${BUILD_PACKAGES}" == "true" || "${BUILD_PACKAGES}" == "yes" ]]; then
     print "Building packages..."
     rm -rf dist/*
@@ -57,19 +80,15 @@ if [[ "${BUILD_PACKAGES}" == "true" || "${BUILD_PACKAGES}" == "yes" ]]; then
 fi
 
 # Publish to npm if token is present
-NPM_TOKEN="${NPM_TOKEN:-${INPUT_NPM_TOKEN:-}}"
 [ -n "${NPM_TOKEN}" ] && publish_to_npm dist/js/*
 
 # Publish to PyPI if token is present
-PYPI_TOKEN="${PYPI_TOKEN:-${INPUT_PYPI_TOKEN:-}}"
 [ -n "${PYPI_TOKEN}" ] && publish_to_pypi dist/python/*
 
 # Publish to NuGet if token is present
-NUGET_TOKEN="${NUGET_TOKEN:-${INPUT_NUGET_TOKEN:-}}"
 [ -n "${NUGET_TOKEN}" ] && publish_to_nuget dist/dotnet/*.nupkg
 
 # Publish to Maven if token is present
-GITHUB_TOKEN="${GITHUB_TOKEN:-${INPUT_GITHUB_TOKEN:-}}"
 [ -n "${GITHUB_TOKEN}" ] && publish_to_maven "$(find . -name "*.pom")"
 
 exit 0
