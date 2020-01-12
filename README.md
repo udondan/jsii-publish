@@ -103,7 +103,7 @@ jobs:
         uses: udondan/jsii-publish@v0.6.4
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ GITHUB_REPOSITORY }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
 ```
 
 ### Usage for running the Docker image locally
