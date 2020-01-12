@@ -56,6 +56,7 @@ var PYPI_TOKEN
 var NUGET_TOKEN
 var GITHUB_USER
 var GITHUB_TOKEN
+var GITHUB_REPOSITORY
 
 if [[ "${DEBUG}" = true ]]; then
     set -x
