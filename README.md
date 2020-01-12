@@ -36,7 +36,7 @@ jobs:
           fetch-depth: 1
 
       - name: Publish packages
-        uses: udondan/jsii-publish@v0.6.5
+        uses: udondan/jsii-publish@v0.7.0
         with:
           VERSION: ${{ steps.get_version.outputs.VERSION }}
           BUILD_SOURCE: true
@@ -74,33 +74,33 @@ jobs:
           fetch-depth: 1
 
       - name: Build source
-        uses: udondan/jsii-publish@v0.6.5
+        uses: udondan/jsii-publish@v0.7.0
         with:
           VERSION: ${{ steps.get_version.outputs.VERSION }}
           BUILD_SOURCE: true
 
       - name: Build packages
-        uses: udondan/jsii-publish@v0.6.5
+        uses: udondan/jsii-publish@v0.7.0
         with:
           BUILD_PACKAGES: true
 
       - name: Publish to npm
-        uses: udondan/jsii-publish@v0.6.5
+        uses: udondan/jsii-publish@v0.7.0
         with:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish to PyPI
-        uses: udondan/jsii-publish@v0.6.5
+        uses: udondan/jsii-publish@v0.7.0
         with:
           PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
 
       - name: Publish to NuGet
-        uses: udondan/jsii-publish@v0.6.5
+        uses: udondan/jsii-publish@v0.7.0
         with:
           NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
 
       - name: Publish to Maven GitHub
-        uses: udondan/jsii-publish@v0.6.5
+        uses: udondan/jsii-publish@v0.7.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -120,7 +120,7 @@ docker run -it \
     --env GITHUB_USER="${OWNER}" \
     --env GITHUB_TOKEN \
     --env GITHUB_REPOSITORY="${OWNER}/${REPOSITORY}" \
-    udondan/jsii-publish:0.6.5
+    udondan/jsii-publish:0.7.0
 ```
 
 The package code can be mounted to any location in the container. Just make sure you set the workdir to the same value. In the example above I use `/workdir`.
