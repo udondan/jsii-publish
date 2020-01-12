@@ -10,7 +10,14 @@ publish_to_pypi() {
 username = __token__
 password = ${PYPI_TOKEN}
 EOF
-    twine upload --skip-existing "$1"
+
+    cmd=(twine upload --skip-existing)
+    if [[ "${DEBUG}" = true ]]; then
+        cmd+=(--verbose)
+    fi
+    cmd+=("$1")
+
+    eval "${cmd[@]}"
 
     complete
 }

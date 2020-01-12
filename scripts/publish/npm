@@ -6,7 +6,14 @@ publish_to_npm() {
     [ -z "${NPM_TOKEN:-}" ] && error "NPM_TOKEN required"
 
     echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-    npm publish "$1"
+
+    cmd=(npm publish)
+    if [[ "${DEBUG}" = true ]]; then
+        cmd+=(--verbose)
+    fi
+    cmd+=("$1")
+
+    eval "${cmd[@]}"
 
     complete
 }

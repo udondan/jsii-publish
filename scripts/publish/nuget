@@ -5,7 +5,13 @@ publish_to_nuget() {
     [ -z "${1:-}" ] && error "Require target directory as first parameter"
     [ -z "${NUGET_TOKEN:-}" ] && error "NUGET_TOKEN required"
 
-    dotnet nuget push "$1" -k "${NUGET_TOKEN}" -s https://api.nuget.org/v3/index.json --skip-duplicate
+    cmd=(dotnet nuget)
+    if [[ "${DEBUG}" = true ]]; then
+        cmd+=(--verbosity Debug)
+    fi
+    cmd+=(push "$1" -k "${NUGET_TOKEN}" -s https://api.nuget.org/v3/index.json --skip-duplicate)
+
+    eval "${cmd[@]}"
 
     complete
 }

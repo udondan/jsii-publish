@@ -17,7 +17,6 @@ publish_to_maven() {
     else
       GITHUB_USER="${GITHUB_REPOSITORY//\/*/}" # extracting the user name from the repo
     fi
-    print "Set user to ${GITHUB_USER}"
 
     dir=$(dirname "$1")
     cd "${dir}" || error "Path ${dir} does not exists"
@@ -65,6 +64,7 @@ EOF
     cmd=(mvn deploy --batch-mode --errors --file "$(basename "$1")" "-DaltDeploymentRepository=\"github::default::https://maven.pkg.github.com/${GITHUB_REPOSITORY}\"")
 
     if [[ "${DEBUG}" = true ]]; then
+      cat ~/.m2/settings.xml
       cmd+=(-X)
     fi
 

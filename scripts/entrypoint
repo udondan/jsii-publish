@@ -56,6 +56,10 @@ var PYPI_TOKEN
 var NUGET_TOKEN
 var GITHUB_TOKEN
 
+if [[ "${DEBUG}" = true ]]; then
+    set -x
+fi
+
 # shellcheck disable=SC1090
 source <(cat /scripts/publish/*)
 
