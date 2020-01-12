@@ -4,12 +4,9 @@ publish_to_maven() {
     begin Maven
     [ ! -f "${1:-}" ] && error "Require pom file as first parameter"
     [ -z "${GITHUB_TOKEN:-}" ] && error "GITHUB_TOKEN required"
-
-    var GITHUB_REPOSITORY
     [ -z "${GITHUB_REPOSITORY:-}" ] && error "GITHUB_REPOSITORY required"
     GITHUB_REPOSITORY=$(echo "${GITHUB_REPOSITORY:-}" | tr '[:upper:]' '[:lower:]')
 
-    var GITHUB_USER
     if [[ -n "${GITHUB_USER}" ]]; then
       :
     elif [[ "${GITHUB_ACTIONS:-}" == "true" ]]; then

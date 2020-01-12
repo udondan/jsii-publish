@@ -54,6 +54,7 @@ var BUILD_PACKAGES
 var NPM_TOKEN
 var PYPI_TOKEN
 var NUGET_TOKEN
+var GITHUB_USER
 var GITHUB_TOKEN
 
 if [[ "${DEBUG}" = true ]]; then
