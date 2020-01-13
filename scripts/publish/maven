@@ -25,7 +25,7 @@ upload() {
   cmd=(curl -X PUT)
   cmd+=("https://maven.pkg.github.com/${GITHUB_REPOSITORY:-}/${file}")
   cmd+=(-H "'Authorization: token ${GITHUB_TOKEN:-}'")
-  cmd+=(--upload-file "${file}" --fail)
+  cmd+=(--upload-file "${file}" --fail --silent --show-error)
   if [[ "${DEBUG}" = true ]]; then
     cmd+=(-vvv)
   fi
