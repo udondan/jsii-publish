@@ -12,7 +12,7 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y dotnet-sdk-3.1 maven nodejs && \
     pip3 install twine==3.1.1 && \
-    apt-get remove -y apt-transport-https gpg curl software-properties-common && \
+    apt-get remove -y apt-transport-https gpg software-properties-common && \
     rm /etc/apt/trusted.gpg.d/microsoft.asc.gpg /etc/apt/sources.list.d/microsoft-prod.list /etc/apt/sources.list.d/nodesource.list && \
     apt-get autoremove -y && \
     apt-get clean

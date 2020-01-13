@@ -54,7 +54,6 @@ var BUILD_PACKAGES
 var NPM_TOKEN
 var PYPI_TOKEN
 var NUGET_TOKEN
-var GITHUB_USER
 var GITHUB_TOKEN
 var GITHUB_REPOSITORY
 
@@ -95,6 +94,6 @@ fi
 [ -n "${NUGET_TOKEN}" ] && publish_to_nuget dist/dotnet/*.nupkg
 
 # Publish to Maven if token is present
-[ -n "${GITHUB_TOKEN}" ] && publish_to_maven "$(find . -name "*.pom")"
+[ -n "${GITHUB_TOKEN}" ] && publish_to_maven dist/java
 
 exit 0
