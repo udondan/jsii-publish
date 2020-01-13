@@ -20,8 +20,15 @@ publish_to_maven() {
 
 upload() {
   local file="$1"
-  curl -X PUT \
-    "https://maven.pkg.github.com/${GITHUB_REPOSITORY:-}/${file}" \
-    -H "Authorization: token ${GITHUB_TOKEN:-}" \
-    --upload-file "${file}" --fail -vvv || exit
+  local cmd
+
+  cmd=(curl -X PUT)
+  cmd+=("https://maven.pkg.github.com/${GITHUB_REPOSITORY:-}/${file}")
+  cmd+=(-H "'Authorization: token ${GITHUB_TOKEN:-}'")
+  cmd+=(--upload-file "${file}" --fail)
+  if [[ "${DEBUG}" = true ]]; then
+    cmd+=(-vvv)
+  fi
+
+  eval "${cmd[@]}" || exit
 }
