@@ -10,7 +10,7 @@ Package building and publishing to npm, PyPI, NuGet and Maven (GitHub).
 
 ## Examples
 
-### Usage in a GitHub workflow
+### GitHub workflow
 
 ```yml
 ---
@@ -106,7 +106,7 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
 ```
 
-### Usage for running the Docker image locally
+### Running the Docker image locally
 
 ```bash
 docker run -it \
