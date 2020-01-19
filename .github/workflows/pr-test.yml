@@ -43,3 +43,5 @@ jobs:
           --volume ${PWD}/test:/workdir
           --env NPM_TOKEN
           jsii-publish:current
+        with:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
