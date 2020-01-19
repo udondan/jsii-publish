@@ -36,10 +36,35 @@ jobs:
           --env BUILD_PACKAGES=true
           jsii-publish:current
 
-      - name: Publish npm package
+      - name: Publish to npm
         run: >-
           docker run
           --workdir /workdir
           --volume ${PWD}/test:/workdir
           --env NPM_TOKEN="${{ secrets.NPM_TOKEN }}"
+          jsii-publish:current
+
+      - name: Publish to PyPI
+        run: >-
+          docker run
+          --workdir /workdir
+          --volume ${PWD}/test:/workdir
+          --env PYPI_TOKEN="${{ secrets.PYPI_TOKEN }}"
+          jsii-publish:current
+
+      - name: Publish to NuGet
+        run: >-
+          docker run
+          --workdir /workdir
+          --volume ${PWD}/test:/workdir
+          --env NUGET_TOKEN="${{ secrets.NUGET_TOKEN }}"
+          jsii-publish:current
+
+      - name: Publish to Maven GitHub
+        run: >-
+          docker run
+          --workdir /workdir
+          --volume ${PWD}/test:/workdir
+          --env GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+          --env GITHUB_REPOSITORY="${{ github.repository }}"
           jsii-publish:current
