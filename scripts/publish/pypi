@@ -2,8 +2,8 @@
 
 publish_to_pypi() {
     begin PyPI
-    [ -z "${1:-}" ] && error "Require target directory as first parameter"
-    [ -z "${PYPI_TOKEN:-}" ] && error "PYPI_TOKEN required"
+    require_dir "${1:-}"
+    require PYPI_TOKEN
 
     cat <<EOF > ~/.pypirc
 [pypi]

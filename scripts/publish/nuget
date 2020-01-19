@@ -2,8 +2,8 @@
 
 publish_to_nuget() {
     begin NuGet
-    [ -z "${1:-}" ] && error "Require target directory as first parameter"
-    [ -z "${NUGET_TOKEN:-}" ] && error "NUGET_TOKEN required"
+    require_dir "${1:-}"
+    require NUGET_TOKEN
 
     cmd=(dotnet nuget)
     if [[ "${DEBUG}" = true ]]; then

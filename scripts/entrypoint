@@ -48,6 +48,16 @@ var() {
     fi
 }
 
+# Fails if the var named in 1st param is undefined/empty
+require() {
+    [ -z "${!1}" ] && error "$1 required"
+}
+
+# Fails if the string given in 1st param is not a directory
+require_dir() {
+    [ ! -d "$1" ] && error "Require target directory as first parameter"
+}
+
 var DEBUG true
 var VERSION
 var BUILD_SOURCE true

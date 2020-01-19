@@ -2,9 +2,9 @@
 
 publish_to_maven() {
     begin Maven
-    [ ! -d "${1:-}" ] && error "Require target directory as first parameter"
-    [ -z "${GITHUB_TOKEN:-}" ] && error "GITHUB_TOKEN required"
-    [ -z "${GITHUB_REPOSITORY:-}" ] && error "GITHUB_REPOSITORY required"
+    require_dir "${1:-}"
+    require GITHUB_TOKEN
+    require GITHUB_REPOSITORY
     GITHUB_REPOSITORY=$(echo "${GITHUB_REPOSITORY:-}" | tr '[:upper:]' '[:lower:]')
 
     cd "${1:-}" || exit
