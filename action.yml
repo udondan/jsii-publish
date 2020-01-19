@@ -31,7 +31,7 @@ inputs:
     description: Your publish token for GitHub. If passed, Maven package will be published to Github
     required: false
   GITHUB_REPOSITORY:
-    description: GitHub repository path. OWNER/REPO, e.g. "udondan/jsii-publish"
+    description: GitHub repository path. OWNER/REPO, e.g. "udondan/jsii-publish". You can just pass in "{{ github.repository }}"
     required: false
   DEBUG:
     description: Enables debug mode
