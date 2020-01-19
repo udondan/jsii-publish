@@ -2,7 +2,7 @@
 
 publish_to_nuget() {
     begin NuGet
-    require_dir "${1:-}"
+    require_file nupkg "${1:-}"
     require NUGET_TOKEN
 
     cmd=(dotnet nuget)

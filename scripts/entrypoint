@@ -51,11 +51,19 @@ var() {
 # Fails if the var named in 1st param is undefined/empty
 require() {
     [ -z "${!1}" ] && error "$1 required"
+    return 0
 }
 
 # Fails if the string given in 1st param is not a directory
 require_dir() {
     [ ! -d "$1" ] && error "Require target directory as first parameter"
+    return 0
+}
+
+require_file() {
+    [ ! -f "$2" ] && error "Require target file as first parameter"
+    [ "${2##*.}" != "$1" ] && error "Target file needs to be of type $1, got ${2##*.}"
+    return 0
 }
 
 var DEBUG true
@@ -99,7 +107,7 @@ fi
 [ -n "${NPM_TOKEN}" ] && publish_to_npm dist/js/*
 
 # Publish to PyPI if token is present
-[ -n "${PYPI_TOKEN}" ] && publish_to_pypi dist/python/*
+[ -n "${PYPI_TOKEN}" ] && publish_to_pypi dist/python
 
 # Publish to NuGet if token is present
 [ -n "${NUGET_TOKEN}" ] && publish_to_nuget dist/dotnet/*.nupkg

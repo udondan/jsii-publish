@@ -15,7 +15,7 @@ EOF
     if [[ "${DEBUG}" = true ]]; then
         cmd+=(--verbose)
     fi
-    cmd+=("$1")
+    cmd+=("$1/*")
 
     eval "${cmd[@]}"
 

@@ -2,7 +2,7 @@
 
 publish_to_npm() {
     begin npm
-    require_dir "${1:-}"
+    require_file tgz "${1:-}"
     require NPM_TOKEN
 
     echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
