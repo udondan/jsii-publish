@@ -56,11 +56,11 @@
     "jsii-pacmak": "^0.21.1"
   },
   "dependencies": {
-    "@aws-cdk/aws-s3": "^1.21.1",
-    "@aws-cdk/core": "^1.21.1"
+    "@aws-cdk/aws-s3": "^1.20.0",
+    "@aws-cdk/core": "^1.20.0"
   },
   "peerDependencies": {
-    "@aws-cdk/aws-s3": "^1.21.1",
-    "@aws-cdk/core": "^1.21.1"
+    "@aws-cdk/aws-s3": "^1.20.0",
+    "@aws-cdk/core": "^1.20.0"
   }
 }
