@@ -16,5 +16,12 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::$(cat VERSION).1
+
+      - name: Print version
+        run: echo ${{ steps.get_version.outputs.VERSION }}
+
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag jsii-publish:current
