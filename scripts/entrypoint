@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# All env vars that can be passed in, are handled in two variants
-# FOO which can be passed in by the user when running locally
-# INPUT_FOO, which is the prefixed version passed in by GitHub actions
-
 set -euo pipefail
 IFS=$'\n\t'
 
@@ -28,6 +24,11 @@ complete() {
     print "✅ Done"
 }
 
+# All env vars that can be passed in, are handled in two variants
+# FOO, which can be passed in by the user when running locally
+# INPUT_FOO, which is the prefixed version passed in by GitHub actions
+# The var function covers both cases. Furthermore it converts the variable to
+# a boolean, if the 2nd parameter is true
 var() {
     local name="$1"
     local value
@@ -47,10 +48,28 @@ var() {
     fi
 }
 
+# Fails if the var named in 1st param is undefined/empty
+require() {
+    [ -z "${!1}" ] && error "$1 required"
+    return 0
+}
+
+# Fails if the string given in 1st param is not a directory
+require_dir() {
+    [ ! -d "$1" ] && error "Require target directory as first parameter"
+    return 0
+}
+
+require_file() {
+    [ ! -f "$2" ] && error "Require target file as first parameter"
+    [ "${2##*.}" != "$1" ] && error "Target file needs to be of type $1, got ${2##*.}"
+    return 0
+}
+
 var DEBUG true
 var VERSION
 var BUILD_SOURCE true
-var BUILD_PACKAGES
+var BUILD_PACKAGES true
 var NPM_TOKEN
 var PYPI_TOKEN
 var NUGET_TOKEN
@@ -66,11 +85,11 @@ source <(cat /scripts/publish/*)
 
 # Update the version if it was passed
 if [[ -n "${VERSION}" ]]; then
-    print "Updating package version to $VERSION..."
+    print "Updating package version to ${VERSION}..."
     npm version "${VERSION}" --allow-same-version --no-git-tag-version
 fi
 
-if [[ "${BUILD_SOURCE}" == "true" || "${BUILD_SOURCE}" == "yes" ]]; then
+if [[ "${BUILD_SOURCE}" = true ]]; then
     print "Installing dependencies..."
     npm install
 
@@ -78,7 +97,7 @@ if [[ "${BUILD_SOURCE}" == "true" || "${BUILD_SOURCE}" == "yes" ]]; then
     npm run build
 fi
 
-if [[ "${BUILD_PACKAGES}" == "true" || "${BUILD_PACKAGES}" == "yes" ]]; then
+if [[ "${BUILD_PACKAGES}" = true ]]; then
     print "Building packages..."
     rm -rf dist/*
     npm run package
@@ -88,7 +107,7 @@ fi
 [ -n "${NPM_TOKEN}" ] && publish_to_npm dist/js/*
 
 # Publish to PyPI if token is present
-[ -n "${PYPI_TOKEN}" ] && publish_to_pypi dist/python/*
+[ -n "${PYPI_TOKEN}" ] && publish_to_pypi dist/python
 
 # Publish to NuGet if token is present
 [ -n "${NUGET_TOKEN}" ] && publish_to_nuget dist/dotnet/*.nupkg

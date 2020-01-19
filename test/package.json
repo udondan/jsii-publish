@@ -1,0 +1,66 @@
+{
+  "name": "jsii-publish-test",
+  "description": "A dummy construct, used for automated testing of jsii-publish",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": {
+    "name": "Daniel Schroeder",
+    "url": "https://www.udondan.com/",
+    "twitter": "udondan"
+  },
+  "homepage": "https://github.com/udondan/jsii-publish",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/udondan/jsii-publish.git"
+  },
+  "bugs": {
+    "url": "https://github.com/udondan/jsii-publish/issues"
+  },
+  "keywords": [],
+  "stability": "experimental",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "jsii",
+    "build:watch": "jsii -w",
+    "package": "jsii-pacmak",
+    "test": "jest"
+  },
+  "jsii": {
+    "outdir": "dist",
+    "targets": {
+      "python": {
+        "distName": "jsii-publish-test",
+        "module": "jsii_publish_test"
+      },
+      "java": {
+        "package": "com.udondan.jsiiPublishTest",
+        "maven": {
+          "groupId": "com.udondan",
+          "artifactId": "jsii-publish-test"
+        }
+      },
+      "dotnet": {
+        "namespace": "JSII.Publish.Test",
+        "packageId": "JSII.Publish.Test"
+      }
+    }
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js"
+    ]
+  },
+  "devDependencies": {
+    "jsii": "^0.21.1",
+    "jsii-pacmak": "^0.21.1"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-s3": "^1.20.0",
+    "@aws-cdk/core": "^1.20.0"
+  },
+  "peerDependencies": {
+    "@aws-cdk/aws-s3": "^1.20.0",
+    "@aws-cdk/core": "^1.20.0"
+  }
+}

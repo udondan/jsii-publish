@@ -1,0 +1,67 @@
+---
+name: Test image functionality
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::$(cat VERSION)1$(( $RANDOM % 1000 ))
+
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag jsii-publish:current
+
+      - name: Build the test package
+        run: >-
+          docker run
+          --workdir /workdir
+          --volume ${PWD}/test:/workdir
+          --env VERSION=${{ steps.get_version.outputs.VERSION }}
+          --env BUILD_SOURCE=true
+          --env BUILD_PACKAGES=true
+          jsii-publish:current
+
+      - name: Publish to npm
+        run: >-
+          docker run
+          --workdir /workdir
+          --volume ${PWD}/test:/workdir
+          --env NPM_TOKEN="${{ secrets.NPM_TOKEN }}"
+          jsii-publish:current
+
+      - name: Publish to PyPI
+        run: >-
+          docker run
+          --workdir /workdir
+          --volume ${PWD}/test:/workdir
+          --env PYPI_TOKEN="${{ secrets.PYPI_TOKEN }}"
+          jsii-publish:current
+
+      - name: Publish to NuGet
+        run: >-
+          docker run
+          --workdir /workdir
+          --volume ${PWD}/test:/workdir
+          --env NUGET_TOKEN="${{ secrets.NUGET_TOKEN }}"
+          jsii-publish:current
+
+      - name: Publish to Maven GitHub
+        run: >-
+          docker run
+          --workdir /workdir
+          --volume ${PWD}/test:/workdir
+          --env GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+          --env GITHUB_REPOSITORY="${{ github.repository }}"
+          jsii-publish:current
