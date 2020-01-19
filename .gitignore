@@ -1,0 +1,5 @@
+test/dist
+test/node_modules
+test/tsconfig.json
+test/lib/*.js
+test/lib/*.d.ts
