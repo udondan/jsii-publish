@@ -41,7 +41,5 @@ jobs:
           docker run
           --workdir /workdir
           --volume ${PWD}/test:/workdir
-          --env NPM_TOKEN
+          --env NPM_TOKEN="${{ secrets.NPM_TOKEN }}"
           jsii-publish:current
-        with:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
