@@ -18,10 +18,28 @@ jobs:
 
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=VERSION::$(cat VERSION).1
+        run: echo ::set-output name=VERSION::$(cat VERSION).1.$(( $RANDOM % 100000 ))
 
       - name: Print version
         run: echo ${{ steps.get_version.outputs.VERSION }}
 
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag jsii-publish:current
+
+      - name: Build the test package
+        run: >-
+          docker run
+          --workdir /workdir
+          --volume ${PWD}:/workdir
+          --env VERSION=${{ steps.get_version.outputs.VERSION }}
+          --env BUILD_SOURCE=true
+          --env BUILD_PACKAGES=true
+          jsii-publish:current
+
+      - name: Publish npm package
+        run: >-
+          docker run
+          --workdir /workdir
+          --volume ${PWD}:/workdir
+          --env NPM_TOKEN
+          jsii-publish:current
