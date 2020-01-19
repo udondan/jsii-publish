@@ -30,7 +30,7 @@ jobs:
         run: >-
           docker run
           --workdir /workdir
-          --volume ${PWD}:/workdir
+          --volume ${PWD}/test:/workdir
           --env VERSION=${{ steps.get_version.outputs.VERSION }}
           --env BUILD_SOURCE=true
           --env BUILD_PACKAGES=true
@@ -40,6 +40,6 @@ jobs:
         run: >-
           docker run
           --workdir /workdir
-          --volume ${PWD}:/workdir
+          --volume ${PWD}/test:/workdir
           --env NPM_TOKEN
           jsii-publish:current
