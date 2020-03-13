@@ -18,7 +18,7 @@ jobs:
 
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=VERSION::$(cat VERSION)1$(( $RANDOM % 1000 ))
+        run: echo ::set-output name=VERSION::$(echo "$(cat VERSION)1$(( $RANDOM % 1000 ))"  | sed -r 's/\.0+([0-9])/.\1/g')
 
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag jsii-publish:current
