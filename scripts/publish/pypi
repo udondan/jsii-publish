@@ -15,6 +15,11 @@ EOF
     if [[ "${DEBUG}" = true ]]; then
         cmd+=(--verbose)
     fi
+
+    if [ -n "${PYPI_OPTIONS}" ]; then
+        cmd+=("${PYPI_OPTIONS}")
+    fi
+
     cmd+=("$1/*")
 
     eval "${cmd[@]}"

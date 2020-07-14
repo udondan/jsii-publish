@@ -9,6 +9,11 @@ publish_to_nuget() {
     if [[ "${DEBUG}" = true ]]; then
         cmd+=(--verbosity Debug)
     fi
+
+    if [ -n "${NUGET_OPTIONS}" ]; then
+        cmd+=("${NUGET_OPTIONS}")
+    fi
+
     cmd+=(push "$1" -k "${NUGET_TOKEN}" -s https://api.nuget.org/v3/index.json --skip-duplicate)
 
     eval "${cmd[@]}"
