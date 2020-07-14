@@ -11,6 +11,11 @@ publish_to_npm() {
     if [[ "${DEBUG}" = true ]]; then
         cmd+=(--verbose)
     fi
+
+    if [ -n "${NPM_OPTIONS}" ]; then
+        cmd+=("${NPM_OPTIONS}")
+    fi
+
     cmd+=("$1")
 
     eval "${cmd[@]}"
