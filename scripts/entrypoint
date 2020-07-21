@@ -70,6 +70,7 @@ var DEBUG true
 var VERSION
 var BUILD_SOURCE true
 var BUILD_PACKAGES true
+var CLEANUP true
 var NPM_TOKEN
 var PYPI_TOKEN
 var NUGET_TOKEN
@@ -117,5 +118,10 @@ fi
 
 # Publish to Maven if token is present
 [ -n "${GITHUB_TOKEN}" ] && publish_to_maven dist/java
+
+if [[ "${CLEANUP}" = true ]]; then
+    print "Deleting dist directory..."
+    rm -rf dist
+fi
 
 exit 0
