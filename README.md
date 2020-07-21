@@ -36,7 +36,7 @@ jobs:
           fetch-depth: 1
 
       - name: Publish packages
-        uses: udondan/jsii-publish@v0.10.0
+        uses: udondan/jsii-publish@v0.11.0
         with:
           VERSION: ${{ steps.get_version.outputs.VERSION }}
           BUILD_SOURCE: true
@@ -74,33 +74,33 @@ jobs:
           fetch-depth: 1
 
       - name: Build source
-        uses: udondan/jsii-publish@v0.10.0
+        uses: udondan/jsii-publish@v0.11.0
         with:
           VERSION: ${{ steps.get_version.outputs.VERSION }}
           BUILD_SOURCE: true
 
       - name: Build packages
-        uses: udondan/jsii-publish@v0.10.0
+        uses: udondan/jsii-publish@v0.11.0
         with:
           BUILD_PACKAGES: true
 
       - name: Publish to npm
-        uses: udondan/jsii-publish@v0.10.0
+        uses: udondan/jsii-publish@v0.11.0
         with:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish to PyPI
-        uses: udondan/jsii-publish@v0.10.0
+        uses: udondan/jsii-publish@v0.11.0
         with:
           PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
 
       - name: Publish to NuGet
-        uses: udondan/jsii-publish@v0.10.0
+        uses: udondan/jsii-publish@v0.11.0
         with:
           NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
 
       - name: Publish to Maven GitHub
-        uses: udondan/jsii-publish@v0.10.0
+        uses: udondan/jsii-publish@v0.11.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
@@ -120,7 +120,7 @@ docker run -it \
     --env NUGET_TOKEN \
     --env GITHUB_TOKEN \
     --env GITHUB_REPOSITORY="${OWNER}/${REPOSITORY}" \
-    udondan/jsii-publish:0.10.0
+    udondan/jsii-publish:0.11.0
 ```
 
 The package code can be mounted to any location in the container. Just make sure you set the workdir to the same value. In the example above I use `/workdir`.
@@ -130,6 +130,7 @@ Parameters passed per env:
 - **VERSION**: If set, the version in `package.json` will be updated with this value
 - **BUILD_SOURCE**: If `true`, the source will be compiled from TS to JS
 - **BUILD_PACKAGES**: If `true`, all configured JSII packages will be built
+- **CLEANUP**: If `true`, deletes the dist directory after publishing
 - **NPM_TOKEN**: Your publish token for npm. If passed, package will be published to npm
 - **PYPI_TOKEN**: Your publish token for PyPI. If passed, package will be published to PyPI
 - **NUGET_TOKEN**: Your publish token for NuGet. If passed, package will be published to NuGet

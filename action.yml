@@ -7,7 +7,7 @@ branding:
   color: orange
 runs:
   using: docker
-  image: docker://udondan/jsii-publish:0.10.0
+  image: docker://udondan/jsii-publish:0.11.0
 inputs:
   BUILD_SOURCE:
     description: Indicates if the source should be build (tsc)
@@ -15,6 +15,9 @@ inputs:
   BUILD_PACKAGES:
     description: Indicates if the packages should be build (jsii)
     default: false
+  CLEANUP:
+    description: Deletes the dist directory after publishing
+    required: false
   VERSION:
     description: If set, the version in `package.json` will be updated with this value
     required: false
