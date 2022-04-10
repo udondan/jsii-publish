@@ -4,11 +4,11 @@ set -euo pipefail
 IFS=$'\n\t'
 
 export TERM=xterm
-yellow=$(tput setaf 003)
-normal=$(tput sgr0)
+yellow="\e[33m"
+normal="\e[39m"
 
 print() {
-    echo "${yellow}$1${normal}"
+    echo -e "${yellow}$1${normal}"
 }
 
 begin() {
