@@ -1,11 +1,11 @@
-import s3 = require('@aws-cdk/aws-s3');
-import cdk = require('@aws-cdk/core');
+import { aws_s3, CfnOutput } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 
-export class Test extends cdk.Construct {
-    constructor(scope: cdk.Construct, id: string) {
-        super(scope, id);
+export class Test extends Construct {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
 
-        const bucket = new s3.Bucket(this, 'Bucket');
-        new cdk.CfnOutput(this, `arn`, { value: bucket.bucketArn });
-    }
+    const bucket = new aws_s3.Bucket(this, 'Bucket');
+    new CfnOutput(this, `arn`, { value: bucket.bucketArn });
+  }
 }
