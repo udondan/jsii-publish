@@ -1,5 +1,7 @@
 # Dockerfile and GitHub action for publishing JSII packages
 
+**DEPRECATED: Please use [publib](https://github.com/cdklabs/publib)**
+
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/udondan/jsii-publish)][releases]
 [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/udondan/jsii-publish)][hub]
 [![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/udondan/jsii-publish)][hub-builds]
